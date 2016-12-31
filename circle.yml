@@ -1,0 +1,5 @@
+test:
+    override:
+        - ./go_test.sh
+    post:
+        - bash <(curl -s https://codecov.io/bash)
