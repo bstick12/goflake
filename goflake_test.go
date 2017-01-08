@@ -1,10 +1,10 @@
 package goflake_test
 
 import (
+	"encoding/base64"
 	. "github.com/bstick12/goflake"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"encoding/base64"
 )
 
 var _ = Describe("Goflake", func() {
@@ -12,13 +12,12 @@ var _ = Describe("Goflake", func() {
 	Describe("Generator can use unique key instead of MAC address", func() {
 		It("UUIDs should be generated", func() {
 			instance := GoFlakeInstanceUsingUnique("value1")
-			uuid := instance.GetBase64UUID();
+			uuid := instance.GetBase64UUID()
 			byteArray, err := base64.RawURLEncoding.DecodeString(uuid)
 			Ω(err).Should(BeNil())
 			Ω(byteArray).Should(HaveLen(15))
 		})
 	})
-
 
 	Describe("Generator should create UUID", func() {
 		It("UUIDs should be Base64", func() {

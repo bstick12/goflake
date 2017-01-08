@@ -1,29 +1,29 @@
 package goflake
 
 import (
-	"net"
-	"errors"
-	"time"
-	"math/rand"
-	"sync/atomic"
 	"encoding/base64"
+	"errors"
+	"math/rand"
+	"net"
 	"sync"
+	"sync/atomic"
+	"time"
 )
 
 var (
 	instance *uuidGenerator
-	once sync.Once
+	once     sync.Once
 )
 
 // GetNonLocalInterface returns the first interface that isn't a loopback.
 func GetNonLocalInterface() (net.Interface, error) {
 	ifaces, err := net.Interfaces()
-	if (err != nil) {
-		return net.Interface{}, err;
+	if err != nil {
+		return net.Interface{}, err
 	}
 	for _, iface := range ifaces {
 		if iface.Flags&net.FlagLoopback == 0 {
-			return iface, nil;
+			return iface, nil
 		}
 	}
 	return net.Interface{}, errors.New("Unable to determine interface that isn't a loopback")
@@ -33,18 +33,16 @@ func GetNonLocalInterface() (net.Interface, error) {
 // putUInt Puts the lower numberOfBytes from longValue into the slice, starting at index pos.
 func putUInt(byteArray []byte, longValue uint64, pos int, numberOfBytes int) {
 	for i := 0; i < numberOfBytes; i++ {
-		val := byte(longValue >> uint(i * 8))
-		byteArray[pos + numberOfBytes - i - 1] = val
+		val := byte(longValue >> uint(i*8))
+		byteArray[pos+numberOfBytes-i-1] = val
 	}
 }
 
-
-
 // A uuidGenerator that allows for the generation for UUIDs
 type uuidGenerator struct {
-	sequence uint64
+	sequence      uint64
 	lastTimestamp timestamp
-	addr []byte
+	addr          []byte
 }
 
 func goFlakeInstance(unique []byte) *uuidGenerator {
@@ -72,7 +70,7 @@ func GoFlakeInstanceUsingMacAddress() *uuidGenerator {
 }
 
 // GetBase64UUID returns A UUID encoded to Base64 URL safe
-func (this *uuidGenerator) GetBase64UUID() (string) {
+func (this *uuidGenerator) GetBase64UUID() string {
 
 	mySequence := atomic.AddUint64(&this.sequence, 1) & 0xffffff
 	flakeId := make([]byte, 15)
@@ -91,7 +89,7 @@ type timestamp struct {
 }
 
 // pushTimestamp returns the last timestamp ensuring that the timestamp doesn't move backwards
-func (this *timestamp) pushTimestamp(sequence uint64) (uint64) {
+func (this *timestamp) pushTimestamp(sequence uint64) uint64 {
 	timestampHolder := uint64(time.Now().UnixNano()) / 1000000
 	this.Lock()
 	defer this.Unlock()

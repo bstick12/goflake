@@ -1,8 +1,8 @@
 package main
 
 import (
-	. "github.com/bstick12/goflake"
 	"fmt"
+	. "github.com/bstick12/goflake"
 )
 
 func main() {
