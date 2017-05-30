@@ -12,12 +12,14 @@ import (
 var generator = GoFlakeInstanceUsingUnique("D01Z01")
 
 func main() {
+	startServer()
+}
 
+func startServer() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/ids", Id)
 	router.Queries("count", "{count:[0-9]+}")
 	log.Fatal(http.ListenAndServe(":8080", router))
-
 }
 
 func Id(w http.ResponseWriter, r *http.Request) {

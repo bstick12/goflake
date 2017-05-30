@@ -1,0 +1,22 @@
+resources:
+- name: goflake
+  type: git
+  source:
+    uri: https://github.com/bstick12/goflake.git
+    branch: master
+
+jobs:
+- name: job-unit-tests
+  plan:
+  - get: goflake
+    trigger: true
+  - task: task-unit-tests
+    file: goflake/concourse/tasks/task-unit-tests.yml
+
+- name: job-build
+  plan:
+    - get: goflake
+      trigger: true
+      passed: [job-unit-tests]
+    - task: task-build
+      file: hello-go/ci/tasks/task-build.yml    
