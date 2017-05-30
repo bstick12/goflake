@@ -19,4 +19,4 @@ jobs:
       trigger: true
       passed: [job-unit-tests]
     - task: task-build
-      file: hello-go/ci/tasks/task-build.yml    
+      file: goflake/concourse/tasks/task-build.yml    

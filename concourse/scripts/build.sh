@@ -17,28 +17,9 @@ echo "pwd is: " $PWD
 echo ""
 cd src/github.com/bstick12/goflake
 
+go get -t -d -v ./...
+
 # Put the binary hello-go filename in /dist
-go build -o dist/goflake ./main.go
+go build -v
 
-# cp the Dockerfile into /dist
-cp ci/Dockerfile dist/Dockerfile
-
-# Check
-echo "List whats in the /dist directory"
-ls -lat dist
-echo ""
-
-# Move what you need to $GOPATH/dist
-# BECAUSE the resource type docker-image works in /dist.
-cp -R ./dist $GOPATH/.
-
-cd $GOPATH
-# Check whats here
-echo "List whats in top directory"
-ls -lat 
-echo ""
-
-# Check whats in /dist
-echo "List whats in /dist"
-ls -lat dist
-echo ""
+ls -lat

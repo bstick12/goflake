@@ -2,6 +2,7 @@ package goflake_test
 
 import (
 	"encoding/base64"
+
 	. "github.com/bstick12/goflake"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -53,6 +54,6 @@ var _ = Describe("Goflake", func() {
 
 			Ω(runtime.Seconds()).Should(BeNumerically("<", 10), "GetBase64UUID() should be quick.")
 
-		}, 3)
+		}, 10)
 	})
 })

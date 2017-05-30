@@ -1,5 +1,4 @@
 #!/bin/bash
-# goflake unit-test.sh
 
 set -e -x
 
@@ -17,9 +16,18 @@ echo "pwd is: " $PWD
 cd src/github.com/bstick12/goflake
 ls -lat
 
-go test -cover ./... | tee test_coverage.txt
-sed -i -e 's/^/     /' test_coverage.txt
+go get -t -d -v ./...
 
-mv test_coverage.txt $GOPATH/coverage-results/.
+echo "" > coverage.txt
+
+for d in $(go list ./... | grep -v vendor); do
+    go test -race -coverprofile=profile.out -covermode=atomic $d
+    if [ -f profile.out ]; then
+        cat profile.out >> coverage.txt
+        rm profile.out
+    fi
+done
+
+mv coverage.txt $GOPATH/coverage-results/.
 
 
