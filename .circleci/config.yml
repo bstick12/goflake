@@ -18,6 +18,7 @@ jobs:
                     rm profile.out
                 fi
             done
+            mv -v *junit.xml /tmp/test-results
       - run:
           name: post coverage
           command: |
