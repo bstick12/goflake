@@ -1,3 +1,4 @@
 .idea/
 *junit.xml
 coverage.txt
+bazel-*
